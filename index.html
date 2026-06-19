@@ -263,13 +263,19 @@ if(r.isConfirmed&&r.value)go(4);
 function kirim(){
   
   const sekarang = new Date();
-const jam = sekarang.getHours();
 
-if(role === 'roam' && (jam < 8 || jam >= 22)){
+// Ambil jam WIB
+const jamWIB = new Date(
+    sekarang.toLocaleString("en-US", {
+        timeZone: "Asia/Jakarta"
+    })
+).getHours();
+
+if(role === 'roam' && (jamWIB < 7 || jamWIB >= 21)){
     Swal.fire({
         icon:'warning',
-        title:'Pendaftaran Roam Tutup',
-        text:'Admin Roam hanya menerima pendaftaran pukul 08:00 - 22:00 WIB.'
+        title:'Pendaftaran Roam Ditutup',
+        text:'Admin Roam hanya menerima pendaftaran pukul 07:00 - 21:00 WIB.'
     });
     return;
 }
