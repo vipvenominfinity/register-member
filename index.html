@@ -70,14 +70,38 @@ transform:translateY(0) rotate(0deg);
 .loading{position:fixed;inset:0;background:#050505;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999}
 .spin{width:70px;height:70px;border:4px solid #333;border-top:4px solid red;border-radius:50%;animation:s 1s linear infinite}
 @keyframes s{to{transform:rotate(360deg)}}
-.header{display:flex;align-items:center;gap:15px;padding:15px;background:#0b0b0b;border-bottom:1px solid #a00;position:sticky;top:0}
+.header{
+display:flex;
+align-items:center;
+gap:15px;
+padding:15px;
+background:#0b0b0b;
+border-bottom:1px solid #a00;
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+
+z-index:999;
+}
 .logo{width:70px;height:70px;border-radius:14px}
 h1{font-family:Cinzel,serif;font-size:22px}
 .brand p{color:#ff4a4a;letter-spacing:4px}
 .progress{height:5px;background:#222}.bar{height:100%;width:20%;background:red;transition:.3s}
-.container{max-width:900px;margin:auto;padding:15px}
+.container{
+max-width:900px;
+margin:auto;
+padding:110px 15px 15px;
+}
 .step{display:none}.active{display:block}
-.card{background:#101010;border:1px solid rgba(255,0,0,.4);padding:18px;border-radius:22px;margin-bottom:15px;box-shadow:0 0 25px rgba(255,0,0,.15)}
+.card{
+background:#101010;
+border:1px solid rgba(255,0,0,.4);
+padding:18px;
+border-radius:22px;
+margin-bottom:15px;
+box-shadow:0 0 25px rgba(255,0,0,.15);
 backdrop-filter:blur(12px);
 transition:.35s;
 }
@@ -161,8 +185,9 @@ DAFTAR KOMPE
 </ul>
 </div>
 
-<button class="btn back" onclick="go(1)">KEMBALI</button>
-<button class="btn" onclick="go(2)">LANJUTKAN</button>
+<button id="kompeBtn" class="btn" disabled>
+LANJUTKAN (10)
+</button>
 
 </div>
 
@@ -288,7 +313,6 @@ style="display:none;margin-top:10px;">
 <button class="btn back" onclick="go(2)">KEMBALI</button>
 <button class="btn" onclick="cekForm()">LANJUTKAN</button>
 </div>
-</div>
 
 <div class="step" id="s4">
 <div class="card"><img src="contoh1.jpg" class="example"></div>
@@ -313,8 +337,36 @@ let role='';
 let modeDaftar='member';
 
 function jalurKompe(){
+
 modeDaftar='kompe';
 go(6);
+
+let detik = 10;
+
+const btn = document.getElementById('kompeBtn');
+
+btn.disabled = true;
+btn.innerText = 'LANJUTKAN (' + detik + ')';
+
+const timer = setInterval(() => {
+
+detik--;
+
+btn.innerText = 'LANJUTKAN (' + detik + ')';
+
+if(detik <= 0){
+
+clearInterval(timer);
+
+btn.disabled = false;
+btn.innerText = 'LANJUTKAN';
+
+btn.onclick = () => go(2);
+
+}
+
+},1000);
+
 }
 function pick(el,val){document.querySelectorAll('.role').forEach(x=>x.classList.remove('on'));el.classList.add('on');role=val}
 function rankUpdate(){
