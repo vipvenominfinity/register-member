@@ -261,7 +261,26 @@ const r=await Swal.fire({title:'Konfirmasi',html:'<input type="checkbox" id="c">
 if(r.isConfirmed&&r.value)go(4);
 }
 function kirim(){
-const admin={mid:'6288228966880',gold:'6285723760181',jungle:'6282357511900',exp:'6285891016662',roam:'6285654863254'};
+  
+  const sekarang = new Date();
+const jam = sekarang.getHours();
+
+if(role === 'roam' && jam >= 22){
+    Swal.fire({
+        icon:'warning',
+        title:'Pendaftaran Roam Ditutup',
+        text:'Admin Roam hanya menerima pendaftaran sampai pukul 22:00 WIB.'
+    });
+    return;
+}
+
+const admin={
+mid:'6282357511900',
+gold:'6285723760181',
+jungle:'6282357511900',
+exp:'6285891016662',
+roam:'6285654863254'
+};
 const msg=`PENDAFTARAN VENOM INFINITY%0ANama:${nama.value}%0AGender:${gender.value}%0AUmur:${umur.value}%0ARole:${role}%0ARank:${rank.value}%0AAlasan:${alasan.value}`;
 location.href='https://wa.me/'+admin[role]+'?text='+msg;
 }
