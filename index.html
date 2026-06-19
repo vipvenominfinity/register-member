@@ -4,494 +4,266 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Venom Infinity Predator</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-font-family:Outfit,sans-serif;color:#fff;padding:14px;
-background:linear-gradient(135deg,#05060a,#0f1020,#1b1038);
-min-height:100vh;
-}
-#loader{
-position:fixed;inset:0;display:flex;flex-direction:column;
-justify-content:center;align-items:center;
-background:#05060a;z-index:9999;
-}
-.spinner{
-width:70px;height:70px;border-radius:50%;
-border:4px solid rgba(255,255,255,.15);
-border-top-color:#d4af37;
-animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.header{
-max-width:950px;margin:auto;
-display:flex;align-items:center;gap:14px;
-padding:14px 18px;
-border-radius:24px;
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.08);
-}
-.logo{
-width:56px;height:56px;border-radius:16px;
-object-fit:cover;background:#111;
-}
-.brand h1{font-family:Cinzel,serif;font-size:19px}
-.brand p{font-size:12px;color:#cfcfcf}
-
-.page{display:none;max-width:950px;margin:14px auto}
-.page.active{display:block}
-
-.banner img{
-width:100%;
-height:auto;
-display:block;
-border-radius:30px;
-}
-
-.card{
-margin-top:14px;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(18px);
-border:1px solid rgba(255,255,255,.08);
-border-radius:26px;
-padding:22px;
-box-shadow:0 0 30px rgba(212,175,55,.08);
-}
-.title{font-size:20px;color:#e8c86b;margin-bottom:10px;font-weight:600}
-ul{padding-left:20px;line-height:1.9}
-.value{
-padding:16px;border-radius:18px;
-background:rgba(255,255,255,.04);
-text-align:center;font-weight:700
-}
-input,select,textarea{
-width:100%;padding:14px;margin-top:10px;
-border-radius:16px;border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.05);color:#fff
-}
-textarea{height:120px}
-.btn,.btn2{
-width:100%;padding:14px;border-radius:16px;margin-top:12px;cursor:pointer
-}
-.btn{
-border:none;color:#111;font-weight:700;
-background:linear-gradient(135deg,#d4af37,#f8e7a7,#caa03a);
-}
-.btn2{
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
+font-family:Outfit,sans-serif;
+background:
+radial-gradient(circle at top,#220000 0%,#0a0a0a 35%,#050505 100%);
 color:#fff;
+overflow-x:hidden;
 }
-.row{display:flex;gap:10px}.row>*{flex:1}
-.example{
-width:100%;
-height:auto;
-display:block;
-border-radius:22px;
-margin-top:10px;
-background:#111;
+.fire{
+position:fixed;
+inset:0;
+overflow:hidden;
+pointer-events:none;
+z-index:-1;
 }
-.note{font-size:13px;color:#e8c86b;margin-top:8px}
 
-input[type="checkbox"]{
-width:18px;
-height:18px;
-accent-color:#d4af37;
+.fire::before,
+.fire::after{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+left:-50%;
+bottom:-50%;
+background:
+radial-gradient(circle,rgba(255,0,0,.18) 0%,transparent 12%),
+radial-gradient(circle,rgba(255,80,0,.12) 0%,transparent 10%),
+radial-gradient(circle,rgba(255,0,0,.08) 0%,transparent 8%);
+background-size:
+180px 180px,
+240px 240px,
+320px 320px;
+animation:fireMove 18s linear infinite;
+filter:blur(25px);
 }
+
+.fire::after{
+animation-duration:28s;
+opacity:.6;
+transform:scale(1.2);
+}
+
+@keyframes fireMove{
+0%{
+transform:translateY(0) rotate(0deg);
+}
+25%{
+transform:translateY(-20px) rotate(1deg);
+}
+50%{
+transform:translateY(-40px) rotate(0deg);
+}
+75%{
+transform:translateY(-20px) rotate(-1deg);
+}
+100%{
+transform:translateY(0) rotate(0deg);
+}
+}
+.loading{position:fixed;inset:0;background:#050505;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999}
+.spin{width:70px;height:70px;border:4px solid #333;border-top:4px solid red;border-radius:50%;animation:s 1s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.header{display:flex;align-items:center;gap:15px;padding:15px;background:#0b0b0b;border-bottom:1px solid #a00;position:sticky;top:0}
+.logo{width:70px;height:70px;border-radius:14px}
+h1{font-family:Cinzel,serif;font-size:22px}
+.brand p{color:#ff4a4a;letter-spacing:4px}
+.progress{height:5px;background:#222}.bar{height:100%;width:20%;background:red;transition:.3s}
+.container{max-width:900px;margin:auto;padding:15px}
+.step{display:none}.active{display:block}
+.card{background:#101010;border:1px solid rgba(255,0,0,.4);padding:18px;border-radius:22px;margin-bottom:15px;box-shadow:0 0 25px rgba(255,0,0,.15)}
+backdrop-filter:blur(12px);
+transition:.35s;
+}
+
+.card:hover{
+transform:translateY(-4px);
+box-shadow:
+0 0 20px rgba(255,0,0,.25),
+0 0 40px rgba(255,0,0,.15);
+}
+.banner,.example{width:100%;border-radius:16px}
+.btn{width:100%;padding:14px;border:none;border-radius:14px;margin-top:10px;font-weight:700;color:#fff;background:linear-gradient(90deg,#900,#f22)}
+.back{background:#333}
+input,select,textarea{width:100%;padding:12px;margin-top:8px;border-radius:12px;border:1px solid #333;background:#181818;color:#fff}
+.roles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.role{padding:14px;text-align:center;border:1px solid #444;border-radius:12px;cursor:pointer}
+.role.on{background:#350000;border-color:red}
+ul{padding-left:18px;line-height:1.8}
 </style>
 </head>
 <body>
+<div class="fire"></div>
+<div class="loading" id="load"><div class="spin"></div><h2 style="margin-top:15px">VENOM INFINITY</h2></div>
 
-<div id="loader">
-<div class="spinner"></div>
-<p style="margin-top:14px">Loading Venom Infinity Predator...</p>
-</div>
-
+<div class="progress"><div class="bar" id="bar"></div></div>
 <div class="header">
-<img src="logo.jpg" class="logo" alt="Logo">
-<div class="brand">
-<h1>VENOM INFINITY PREDATOR</h1>
-</div>
+<img src="logo.jpg" class="logo">
+<div class="brand"><h1>VENOM INFINITY</h1><p>PREDATOR</p></div>
 </div>
 
-<div id="p1" class="page active">
-<div class="banner"><img src="banner.png"></div>
+<div class="container">
 
+<div class="step active" id="s1">
+<div class="card"><img src="banner.png" class="banner"></div>
+<div class="card"><h2>Tata Cara Pendaftaran</h2><ul>
+<li>Baca seluruh syarat pendaftaran.</li>
+<li>Follow TikTok dan Instagram Official VIP.</li>
+<li>Salin CN dan Bio yang telah disediakan.</li>
+<li>Isi formulir dengan data yang benar.</li>
+<li>Kirim bukti sesuai ketentuan.</li>
+<li>Pilih admin sesuai role utama.</li></ul></div>
+<div class="card"><h2>Ketentuan</h2><ul>
+<li>Wajib follow akun TikTok official.</li>
+<li>Wajib menggunakan CN & Bio sesuai ketentuan.</li>
+<li>Wajib mengirim SS bukti follow + bio.</li>
+<li>Wajib mengisi form dengan lengkap.</li>
+<li>Wajib menjaga attitude selama proses seleksi.</li></ul></div>
+<button id="timerBtn" class="btn" disabled>LANJUTKAN (30)</button>
+</div>
+
+<div class="step" id="s2">
 <div class="card">
-<div class="title">TATA CARA PENDAFTARAN</div>
+<h2>CN TIKTOK</h2>
+<input id="cn" value="𝐕𝐈𝐏" readonly>
 
-<ul>
-<li>Baca seluruh ketentuan dan tata cara pendaftaran.</li>
-<li>Tunggu hitung mundur 30 detik hingga selesai.</li>
-<li>Centang konfirmasi bahwa Anda sudah membaca seluruh ketentuan.</li>
-<li>Tekan tombol LANJUTKAN.</li>
-<li>Salin dan pasang CN serta BIO yang telah disediakan.</li>
-<li>Follow TikTok Official dan Instagram Official Venom Infinity.</li>
-<li>Isi formulir pendaftaran dengan data yang benar.</li>
-<li>Siapkan seluruh bukti verifikasi yang diminta.</li>
-<li>Pilih admin sesuai role yang dipilih.</li>
-<li>Kirim formulir dan bukti verifikasi melalui WhatsApp admin.</li>
-<li>Tunggu proses seleksi dan keputusan admin.</li>
-</ul>
-
-<p class="note">
-Peserta yang tidak mengikuti tata cara di atas dapat ditolak pada tahap verifikasi.
-</p>
-
-</div>
-
-<div class="card">
-<div class="title">KETENTUAN</div>
-<ul>
-<li>Wajib follow akun TikTok Official.</li>
-<li>Wajib menggunakan CN & BIO sesuai ketentuan.</li>
-<li>Wajib mengirim bukti verifikasi.</li>
-<li>Wajib mengisi formulir lengkap.</li>
-<li>Wajib menjaga attitude selama seleksi.</li>
-</ul>
-</div>
-
-<div class="card">
-<div class="title">CATATAN</div>
-<ul>
-<li>Data tidak lengkap tidak diproses.</li>
-<li>Keputusan admin bersifat mutlak.</li>
-<li>Data peserta dijaga kerahasiaannya.</li>
-</ul>
-</div>
-
-<div class="card">
-
-<div class="title">KONFIRMASI MEMBACA</div>
-
-<p id="countdown" style="text-align:center;font-weight:600">
-Waktu tersisa: 30 detik
-</p>
-
-<div id="checkArea" style="display:none;margin-top:15px">
-
-<label style="display:flex;gap:10px;align-items:flex-start">
-
-<input type="checkbox" id="setuju" style="width:auto">
-
-<span>
-Saya sudah membaca dan memahami seluruh ketentuan pendaftaran.
-</span>
-
-</label>
-
-</div>
-
-<button
-id="btnLanjut"
-class="btn"
-disabled
-onclick="goPage('p2')"
-style="opacity:.5;cursor:not-allowed">
-LANJUTKAN
+<button type="button" class="btn" onclick="copyT('cn')">
+SALIN CN
 </button>
-
 </div>
-</div>
-
-<div id="p2" class="page">
-
 <div class="card">
-<div class="title">CN ( wajib cn tiktok )</div>
-<div class="value">𝐕𝐈𝐏</div>
-<button class="btn2" onclick="copyText('𝐕𝐈𝐏')">SALIN CN</button>
-</div>
+<h2>BIO TIKTOK</h2>
+<input id="bio" value="𝐕𝐄𝐍𝐎𝐌 𝐈𝐍𝐅𝐈𝐍𝐈𝐓𝐘 𝐅𝐀𝐌𝐈𝐋𝐘" readonly>
 
-<div class="card">
-<div class="title">BIO ( wajib memakai bio )</div>
-<div class="value">𝐕𝐄𝐍𝐎𝐌 𝐈𝐍𝐅𝐈𝐍𝐈𝐓𝐘 𝐅𝐀𝐌𝐈𝐋𝐘</div>
-<button class="btn2" onclick="copyText('𝐕𝐄𝐍𝐎𝐌 𝐈𝐍𝐅𝐈𝐍𝐈𝐓𝐘 𝐅𝐀𝐌𝐈𝐋𝐘')">SALIN BIO</button>
-</div>
-
-<div class="card">
-<div class="title">TIKTOK OFFICIAL</div>
-<div class="value">@venom_infinity.official</div>
-<button class="btn"
-onclick="window.open('https://www.tiktok.com/@venom_infinity.official?_r=1&_t=ZS-96kmfqGWDjx','_blank')">
-FOLLOW TIKTOK OFFICIAL
+<button type="button" class="btn" onclick="copyT('bio')">
+SALIN BIO
 </button>
-<p class="note">Wajib follow akun TikTok Official sebelum melanjutkan pendaftaran.</p>
+</div>
+<div class="card">
+    <h2>
+        <i class="fa-brands fa-tiktok"></i>
+        TikTok Official
+    </h2>
+
+    <p>@venom_infinity.official</p>
+
+    <a href="https://www.tiktok.com/@venom_infinity.official?_r=1&_t=ZS-96kmfqGWDjx"
+       target="_blank"
+       class="btn"
+       style="display:block;text-align:center;text-decoration:none;">
+       FOLLOW TIKTOK
+    </a>
 </div>
 
 <div class="card">
-<div class="title">INSTAGRAM OFFICIAL</div>
-<div class="value">@venom.infinity_official</div>
+    <h2>
+        <i class="fa-brands fa-instagram"></i>
+        Instagram Official
+    </h2>
 
-<button class="btn"
-onclick="window.open('https://www.instagram.com/venom.infinity_official?utm_source=qr&igsh=MTQ3N3p2ZWJ3dTBwMw==','_blank')">
-FOLLOW INSTAGRAM OFFICIAL
-</button>
+    <p>@venom.infinity_official</p>
 
-<p class="note">
-Wajib follow akun Instagram Official sebelum melanjutkan pendaftaran.
-</p>
+    <a href="https://www.instagram.com/venom.infinity_official?utm_source=qr&igsh=MTQ3N3p2ZWJ3dTBwMw=="
+       target="_blank"
+       class="btn"
+       style="display:block;text-align:center;text-decoration:none;">
+       FOLLOW INSTAGRAM
+    </a>
+</div>
+<button class="btn back" onclick="go(1)">KEMBALI</button>
+<button class="btn" onclick="go(3)">LANJUTKAN</button>
 </div>
 
-<div class="row">
-<button class="btn2" onclick="goPage('p1')">KEMBALI</button>
-<button class="btn" onclick="goPage('p3')">LANJUTKAN</button>
-</div>
-
-</div>
-
-<div id="p3" class="page">
+<div class="step" id="s3">
 <div class="card">
-<div class="title">FORMULIR PENDAFTARAN</div>
-<input id="nama" placeholder="Nama Lengkap">
-<select id="gender"><option value="">Pilih Gender</option><option>Laki-Laki</option><option>Perempuan</option></select>
-<input id="umur" type="number" placeholder="Umur">
-<select id="role"><option value="">Pilih Role</option><option>Gold</option><option>Jungle</option><option>Mid</option><option>Exp</option><option>Roam</option></select>
-<select id="rank"><option value="">Pilih Rank</option></select>
-<div class="note">Laki-Laki: Glory/Immortal • Perempuan: Honor/Glory/Immortal</div>
-<textarea id="alasan" placeholder="Alasan Bergabung"></textarea>
-<div class="row"><button class="btn2" onclick="goPage('p2')">KEMBALI</button><button class="btn" onclick="lanjut()">LANJUTKAN</button></div>
+<label>Nama</label>
+<input id="nama" placeholder="Isi nama di sini">
 </div>
-</div>
-
-<div id="p4" class="page">
-<div class="card">
-<div class="title">VERIFIKASI</div>
-
-<img src="contoh1.jpg" class="example">
-
-<div class="card" style="margin-top:15px;padding:18px">
-<h2 style="
-text-align:center;
-font-size:22px;
-font-weight:700;
-color:#e8c86b;
-margin-bottom:10px;
-">
-KIRIM FILE GAMBAR SEPERTI CONTOH DI ATAS
-</h2>
-
-<p style="
-text-align:center;
-font-size:14px;
-color:#ddd;
-line-height:1.7;
-">
-file gambar tersebut kirim di wa , tekan "lanjutkan" untuk kirim ke admin.
-</p>
-</div>
-
-<div class="card" style="margin-top:15px;padding:18px">
-<div class="title" style="font-size:18px">
-FILE YANG WAJIB DIKIRIM
-</div>
-
-<ul>
-<li>SS Profil TikTok yang sudah memakai CN & BIO.</li>
-<li>SS Follow TikTok Venom Infinity Official.</li>
-<li>SS Profil Mobile Legends.</li>
-<li>Foto selfie yang jelas dan dapat dikenali.</li>
-</ul>
-</div>
-
-<div class="row">
-<button class="btn2" onclick="goPage('p3')">KEMBALI</button>
-<button class="btn" onclick="goPage('p5')">LANJUTKAN</button>
-</div>
-
-</div>
-
-<div id="p5" class="page">
 
 <div class="card">
-<div class="title">PILIH ADMIN SESUAI ROLE</div>
-
-<p class="note" style="margin-bottom:15px">
-Silahkan hubungi admin sesuai role yang dipilih pada formulir.
-</p>
-
-<div id="roleAdmin"></div>
-
-<div class="row">
-<button class="btn2" onclick="goPage('p4')">KEMBALI</button>
-<button class="btn" onclick="kirimWA()">KIRIM PENDAFTARAN</button>
+<label>Gender</label>
+<select id="gender" onchange="rankUpdate()">
+<option value="">Pilih Gender</option>
+<option>Laki-Laki</option>
+<option>Perempuan</option>
+</select>
 </div>
 
+<div class="card">
+<label>Umur</label>
+<input id="umur" type="number" placeholder="Isi umur di sini">
 </div>
+
+<div class="card">
+<label>Role Utama</label>
+
+<div class="roles">
+<div class="role" onclick="pick(this,'mid')">MID</div>
+<div class="role" onclick="pick(this,'gold')">GOLD</div>
+<div class="role" onclick="pick(this,'exp')">EXP</div>
+<div class="role" onclick="pick(this,'roam')">ROAM</div>
+<div class="role" onclick="pick(this,'jungle')">JUNGLE</div>
+</div>
+</div>
+
+<div class="card">
+<label>High Rank</label>
+<select id="rank">
+<option value="">Pilih Rank</option>
+</select>
+</div>
+
+<div class="card">
+<label>Alasan Bergabung</label>
+<textarea id="alasan" placeholder="Isi alasan bergabung di sini"></textarea>
+</div>
+<button class="btn back" onclick="go(2)">KEMBALI</button>
+<button class="btn" onclick="cekForm()">LANJUTKAN</button>
+</div>
+</div>
+
+<div class="step" id="s4">
+<div class="card"><img src="contoh1.jpg" class="example"></div>
+<div class="card">Kirim file gambar seperti contoh di atas, kirim lewat WhatsApp.</div>
+<div class="card"><ul><li>SS Follow TikTok VIP</li><li>SS TikTok sudah CN & Bio</li><li>SS Akun Mobile Legends</li><li>Foto Selfie</li></ul></div>
+<button class="btn back" onclick="go(3)">KEMBALI</button>
+<button class="btn" onclick="go(5)">LANJUTKAN</button>
+</div>
+
+<div class="step" id="s5">
+<div class="card"><h2>Kirim Pendaftaran</h2><button class="btn back" onclick="go(4)">KEMBALI</button><button class="btn" onclick="kirim()">KIRIM PENDAFTARAN</button></div>
+</div>
+
 </div>
 
 <script>
-window.addEventListener('load', () => {
-setTimeout(() => {
-document.getElementById('loader').style.display='none';
-},1200);
-});
-function goPage(id){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-
-if(id==='p5'){
-tampilAdmin();
-}
-
-scrollTo(0,0);
-}
-function copyText(t){navigator.clipboard.writeText(t);alert('Berhasil disalin');}
-gender.onchange=()=>{
+setTimeout(()=>load.style.display='none',1800);
+function go(n){document.querySelectorAll('.step').forEach(x=>x.classList.remove('active'));document.getElementById('s'+n).classList.add('active');bar.style.width=(n*20)+'%'}
+let sec=30;let tt=setInterval(()=>{sec--;timerBtn.innerText='LANJUTKAN ('+sec+')';if(sec<=0){clearInterval(tt);timerBtn.disabled=false;timerBtn.innerText='LANJUTKAN';timerBtn.onclick=()=>go(2)}},1000);
+function copyT(id){navigator.clipboard.writeText(document.getElementById(id).value);Swal.fire('Berhasil','Disalin','success')}
+let role='';
+function pick(el,val){document.querySelectorAll('.role').forEach(x=>x.classList.remove('on'));el.classList.add('on');role=val}
+function rankUpdate(){
 rank.innerHTML='<option value="">Pilih Rank</option>';
-if(gender.value==='Laki-Laki') rank.innerHTML+='<option>Mythical Glory</option><option>Mythical Immortal</option>';
-if(gender.value==='Perempuan') rank.innerHTML+='<option>Mythical Honor</option><option>Mythical Glory</option><option>Mythical Immortal</option>';
+if(gender.value==='Laki-Laki'){rank.innerHTML+='<option>Glory</option><option>Immortal</option>';}
+if(gender.value==='Perempuan'){rank.innerHTML+='<option>Honor</option><option>Glory</option><option>Immortal</option>';}
 }
-function lanjut(){
-for(const i of ['nama','gender','umur','role','rank','alasan']){
-if(!document.getElementById(i).value.trim()){alert('Lengkapi formulir terlebih dahulu');return;}
+async function cekForm(){
+if(!nama.value||!gender.value||!umur.value||!role||!rank.value||!alasan.value){Swal.fire('Lengkapi semua formulir');return;}
+if(+umur.value<15){Swal.fire('Minimal umur 15 tahun');return;}
+const r=await Swal.fire({title:'Konfirmasi',html:'<input type="checkbox" id="c"> Saya yakin data yang saya isi benar',showCancelButton:true,preConfirm:()=>document.getElementById('c').checked});
+if(r.isConfirmed&&r.value)go(4);
 }
-goPage('p4');
+function kirim(){
+const admin={mid:'6288228966880',gold:'6285723760181',jungle:'6282357511900',exp:'6285891016662',roam:'6285654863254'};
+const msg=`PENDAFTARAN VENOM INFINITY%0ANama:${nama.value}%0AGender:${gender.value}%0AUmur:${umur.value}%0ARole:${role}%0ARank:${rank.value}%0AAlasan:${alasan.value}`;
+location.href='https://wa.me/'+admin[role]+'?text='+msg;
 }
-function kirimWA(){
-
-let nomor='';
-
-if(role.value==='Gold'){
-nomor='6285723760181';
-}
-
-if(role.value==='Jungle'){
-nomor='6282357511900';
-}
-
-if(role.value==='Mid'){
-nomor='6288228966880';
-}
-
-if(role.value==='Exp'){
-nomor='6285891016662';
-}
-
-if(role.value==='Roam'){
-nomor='628565483254';
-}
-
-const msg=`❖ FORMULIR PENDAFTARAN VIP ❖
-
-Nama : ${nama.value}
-Gender : ${gender.value}
-Umur : ${umur.value}
-Role : ${role.value}
-Rank : ${rank.value}
-
-Alasan :
-${alasan.value}`;
-
-window.open(
-'https://wa.me/'+nomor+
-'?text='+encodeURIComponent(msg),
-'_blank'
-);
-}
-
-function tampilAdmin(){
-
-let html='';
-
-if(role.value==='Gold'){
-html=`
-<div class="value">
-Admin Gold<br>
-Mido 
-</div>
-`;
-}
-
-if(role.value==='Jungle'){
-html=`
-<div class="value">
-Admin Jungle<br>
-W 
-</div>
-`;
-}
-
-if(role.value==='Mid'){
-html=`
-<div class="value">
-Admin Mid<br>
-Rena
-</div>
-`;
-}
-
-if(role.value==='Exp'){
-html=`
-<div class="value">
-Admin Exp<br>
-Kamell 
-</div>
-`;
-}
-
-if(role.value==='Roam'){
-html=`
-<div class="value">
-Admin Roam<br>
-Aren 
-</div>
-`;
-}
-
-document.getElementById('roleAdmin').innerHTML=html;
-}
-
-let detik = 30;
-
-window.addEventListener('DOMContentLoaded', () => {
-
-const countdown = document.getElementById('countdown');
-const checkArea = document.getElementById('checkArea');
-const btnLanjut = document.getElementById('btnLanjut');
-
-const timer = setInterval(() => {
-
-countdown.innerHTML =
-`Waktu tersisa: ${detik} detik`;
-
-detik--;
-
-if(detik < 0){
-
-clearInterval(timer);
-
-countdown.innerHTML =
-`✅ Centang konfirmasi untuk melanjutkan`;
-
-checkArea.style.display='block';
-
-}
-
-},1000);
-
-document.getElementById('setuju').addEventListener('change',function(){
-
-if(this.checked){
-
-btnLanjut.disabled=false;
-btnLanjut.style.opacity='1';
-btnLanjut.style.cursor='pointer';
-
-}else{
-
-btnLanjut.disabled=true;
-btnLanjut.style.opacity='.5';
-btnLanjut.style.cursor='not-allowed';
-
-}
-
-});
-
-});
-
 </script>
-</body>
-</html>
+</body></html>
