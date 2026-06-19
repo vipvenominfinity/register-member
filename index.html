@@ -126,6 +126,44 @@ ul{padding-left:18px;line-height:1.8}
 <li>Wajib mengisi form dengan lengkap.</li>
 <li>Wajib menjaga attitude selama proses seleksi.</li></ul></div>
 <button id="timerBtn" class="btn" disabled>LANJUTKAN (30)</button>
+
+<button class="btn" onclick="jalurKompe()">
+DAFTAR KOMPE
+</button>
+</div>
+
+<div class="step" id="s6">
+
+<div class="card">
+<img src="kompe.png" class="banner">
+</div>
+
+<div class="card">
+<h2>KRITERIA</h2>
+<ul>
+<li>Minimal 300-400+ Star lebih diutamakan</li>
+<li>Memiliki fundamental gameplay yang baik</li>
+<li>Paham macro & micro gameplay</li>
+<li>Aktif, disiplin, dan bertanggung jawab</li>
+<li>Siap menerima evaluasi dan berkembang bersama tim</li>
+<li>Khusus Flex Player wajib mampu beradaptasi dengan kebutuhan tim</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>YANG AKAN KAMU DAPATKAN</h2>
+<ul>
+<li>Scrim kompetitif secara rutin</li>
+<li>Kesempatan mengikuti turnamen</li>
+<li>Lingkungan yang fokus pada pengembangan player</li>
+<li>Evaluasi gameplay dan mentoring tim</li>
+<li>Kesempatan promosi ke roster utama melalui ALTER ASCENSION SYSTEM</li>
+</ul>
+</div>
+
+<button class="btn back" onclick="go(1)">KEMBALI</button>
+<button class="btn" onclick="go(2)">LANJUTKAN</button>
+
 </div>
 
 <div class="step" id="s2">
@@ -230,9 +268,17 @@ SALIN BIO
 
 <div class="card">
 <label>High Rank</label>
+
 <select id="rank">
 <option value="">Pilih Rank</option>
 </select>
+
+<input
+id="star"
+type="number"
+placeholder="Jumlah Star Tertinggi"
+style="display:none;margin-top:10px;">
+
 </div>
 
 <div class="card">
@@ -264,19 +310,73 @@ function go(n){document.querySelectorAll('.step').forEach(x=>x.classList.remove(
 let sec=30;let tt=setInterval(()=>{sec--;timerBtn.innerText='LANJUTKAN ('+sec+')';if(sec<=0){clearInterval(tt);timerBtn.disabled=false;timerBtn.innerText='LANJUTKAN';timerBtn.onclick=()=>go(2)}},1000);
 function copyT(id){navigator.clipboard.writeText(document.getElementById(id).value);Swal.fire('Berhasil','Disalin','success')}
 let role='';
+let modeDaftar='member';
+
+function jalurKompe(){
+modeDaftar='kompe';
+go(6);
+}
 function pick(el,val){document.querySelectorAll('.role').forEach(x=>x.classList.remove('on'));el.classList.add('on');role=val}
 function rankUpdate(){
+
 rank.innerHTML='<option value="">Pilih Rank</option>';
-if(gender.value==='Laki-Laki'){rank.innerHTML+='<option>Glory</option><option>Immortal</option>';}
-if(gender.value==='Perempuan'){rank.innerHTML+='<option>Honor</option><option>Glory</option><option>Immortal</option>';}
+
+if(gender.value==='Laki-Laki'){
+rank.innerHTML+='<option>Glory</option><option>Immortal</option>';
+}
+
+if(gender.value==='Perempuan'){
+rank.innerHTML+='<option>Honor</option><option>Glory</option><option>Immortal</option>';
+}
+
+if(modeDaftar==='kompe'){
+document.getElementById('star').style.display='block';
+}else{
+document.getElementById('star').style.display='none';
+}
+
 }
 async function cekForm(){
 if(!nama.value||!gender.value||!umur.value||!role||!rank.value||!alasan.value){Swal.fire('Lengkapi semua formulir');return;}
+if(modeDaftar==='kompe'){
+
+if(!star.value){
+Swal.fire('Masukkan jumlah star tertinggi');
+return;
+}
+
+if(Number(star.value)<300){
+Swal.fire(
+'Belum Memenuhi Syarat',
+'Minimal 300 Star untuk jalur kompetitif',
+'warning'
+);
+return;
+}
+
+}
 if(+umur.value<15){Swal.fire('Minimal umur 15 tahun');return;}
 const r=await Swal.fire({title:'Konfirmasi',html:'<input type="checkbox" id="c"> Saya yakin data yang saya isi benar',showCancelButton:true,preConfirm:()=>document.getElementById('c').checked});
 if(r.isConfirmed&&r.value)go(4);
 }
 function kirim(){
+  
+  if(modeDaftar==='kompe'){
+
+const msg=`PENDAFTARAN KOMPETITIF VENOM INFINITY
+
+%0ANama: ${nama.value}
+%0AGender: ${gender.value}
+%0AUmur: ${umur.value}
+%0AStar: ${star.value}
+%0ARole: ${role}
+%0ARank: ${rank.value}
+%0AAlasan: ${alasan.value}`;
+
+location.href='https://wa.me/6285891016662?text='+msg;
+
+return;
+}
   
   const sekarang = new Date();
 
