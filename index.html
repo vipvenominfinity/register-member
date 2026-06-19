@@ -129,13 +129,29 @@ ul{padding-left:18px;line-height:1.8}
 </div>
 
 <div class="step" id="s2">
+
+<div class="card">
+<h2>KETERANGAN COOLDOWN CN</h2>
+
+<label>Kalo cooldown, sebutkan cooldownnya berapa hari</label>
+
+<select id="cooldown">
+<option value="">Pilih Cooldown</option>
+<option>1 Hari</option>
+<option>2 Hari</option>
+<option>3 Hari</option>
+<option>4 Hari</option>
+<option>5 Hari</option>
+<option>6 Hari</option>
+<option>7 Hari</option>
+</select>
+
+</div>
+
 <div class="card">
 <h2>CN TIKTOK</h2>
 <input id="cn" value="𝐕𝐈𝐏" readonly>
-
-<button type="button" class="btn" onclick="copyT('cn')">
-SALIN CN
-</button>
+<button class="btn" onclick="copyT('cn')">SALIN CN</button>
 </div>
 <div class="card">
 <h2>BIO TIKTOK</h2>
@@ -287,7 +303,14 @@ jungle:'6282357511900',
 exp:'6285891016662',
 roam:'6285654863254'
 };
-const msg=`PENDAFTARAN VENOM INFINITY%0ANama:${nama.value}%0AGender:${gender.value}%0AUmur:${umur.value}%0ARole:${role}%0ARank:${rank.value}%0AAlasan:${alasan.value}`;
+const msg=`PENDAFTARAN VENOM INFINITY
+%0A%0ANama: ${nama.value}
+%0AGender: ${gender.value}
+%0AUmur: ${umur.value}
+%0ACooldown CN: ${cooldown.value || 'Tidak Ada'}
+%0ARole: ${role}
+%0ARank: ${rank.value}
+%0AAlasan: ${alasan.value}`;
 location.href='https://wa.me/'+admin[role]+'?text='+msg;
 }
 </script>
