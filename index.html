@@ -95,6 +95,12 @@ margin-top:10px;
 background:#111;
 }
 .note{font-size:13px;color:#e8c86b;margin-top:8px}
+
+input[type="checkbox"]{
+width:18px;
+height:18px;
+accent-color:#d4af37;
+}
 </style>
 </head>
 <body>
@@ -113,6 +119,29 @@ background:#111;
 
 <div id="p1" class="page active">
 <div class="banner"><img src="banner.png"></div>
+
+<div class="card">
+<div class="title">TATA CARA PENDAFTARAN</div>
+
+<ul>
+<li>Baca seluruh ketentuan dan tata cara pendaftaran.</li>
+<li>Tunggu hitung mundur 30 detik hingga selesai.</li>
+<li>Centang konfirmasi bahwa Anda sudah membaca seluruh ketentuan.</li>
+<li>Tekan tombol LANJUTKAN.</li>
+<li>Salin dan pasang CN serta BIO yang telah disediakan.</li>
+<li>Follow TikTok Official dan Instagram Official Venom Infinity.</li>
+<li>Isi formulir pendaftaran dengan data yang benar.</li>
+<li>Siapkan seluruh bukti verifikasi yang diminta.</li>
+<li>Pilih admin sesuai role yang dipilih.</li>
+<li>Kirim formulir dan bukti verifikasi melalui WhatsApp admin.</li>
+<li>Tunggu proses seleksi dan keputusan admin.</li>
+</ul>
+
+<p class="note">
+Peserta yang tidak mengikuti tata cara di atas dapat ditolak pada tahap verifikasi.
+</p>
+
+</div>
 
 <div class="card">
 <div class="title">KETENTUAN</div>
@@ -134,7 +163,38 @@ background:#111;
 </ul>
 </div>
 
-<button class="btn" onclick="goPage('p2')">LANJUTKAN</button>
+<div class="card">
+
+<div class="title">KONFIRMASI MEMBACA</div>
+
+<p id="countdown" style="text-align:center;font-weight:600">
+Waktu tersisa: 30 detik
+</p>
+
+<div id="checkArea" style="display:none;margin-top:15px">
+
+<label style="display:flex;gap:10px;align-items:flex-start">
+
+<input type="checkbox" id="setuju" style="width:auto">
+
+<span>
+Saya sudah membaca dan memahami seluruh ketentuan pendaftaran.
+</span>
+
+</label>
+
+</div>
+
+<button
+id="btnLanjut"
+class="btn"
+disabled
+onclick="goPage('p2')"
+style="opacity:.5;cursor:not-allowed">
+LANJUTKAN
+</button>
+
+</div>
 </div>
 
 <div id="p2" class="page">
@@ -198,16 +258,49 @@ Wajib follow akun Instagram Official sebelum melanjutkan pendaftaran.
 
 <div id="p4" class="page">
 <div class="card">
-<div class="title">VERIFIKASI (kirim di wa)</div>
-<img src="contoh.jpg" class="example">
-<ul style="margin-top:12px">
+<div class="title">VERIFIKASI</div>
+
+<img src="contoh1.jpg" class="example">
+
+<div class="card" style="margin-top:15px;padding:18px">
+<h2 style="
+text-align:center;
+font-size:22px;
+font-weight:700;
+color:#e8c86b;
+margin-bottom:10px;
+">
+KIRIM FILE GAMBAR SEPERTI CONTOH DI ATAS
+</h2>
+
+<p style="
+text-align:center;
+font-size:14px;
+color:#ddd;
+line-height:1.7;
+">
+file gambar tersebut kirim di wa , tekan "lanjutkan" untuk kirim ke admin.
+</p>
+</div>
+
+<div class="card" style="margin-top:15px;padding:18px">
+<div class="title" style="font-size:18px">
+FILE YANG WAJIB DIKIRIM
+</div>
+
+<ul>
 <li>SS Profil TikTok yang sudah memakai CN & BIO.</li>
 <li>SS Follow TikTok Venom Infinity Official.</li>
 <li>SS Profil Mobile Legends.</li>
 <li>Foto selfie yang jelas dan dapat dikenali.</li>
 </ul>
-<div class="row"><button class="btn2" onclick="goPage('p3')">KEMBALI</button><button class="btn" onclick="goPage('p5')">LANJUTKAN</button></div>
 </div>
+
+<div class="row">
+<button class="btn2" onclick="goPage('p3')">KEMBALI</button>
+<button class="btn" onclick="goPage('p5')">LANJUTKAN</button>
+</div>
+
 </div>
 
 <div id="p5" class="page">
@@ -230,7 +323,11 @@ Silahkan hubungi admin sesuai role yang dipilih pada formulir.
 </div>
 
 <script>
-window.addEventListener('load',()=>setTimeout(()=>loader.style.display='none',1200));
+window.addEventListener('load', () => {
+setTimeout(() => {
+document.getElementById('loader').style.display='none';
+},1200);
+});
 function goPage(id){
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 document.getElementById(id).classList.add('active');
@@ -346,6 +443,54 @@ Aren
 
 document.getElementById('roleAdmin').innerHTML=html;
 }
+
+let detik = 30;
+
+window.addEventListener('DOMContentLoaded', () => {
+
+const countdown = document.getElementById('countdown');
+const checkArea = document.getElementById('checkArea');
+const btnLanjut = document.getElementById('btnLanjut');
+
+const timer = setInterval(() => {
+
+countdown.innerHTML =
+`Waktu tersisa: ${detik} detik`;
+
+detik--;
+
+if(detik < 0){
+
+clearInterval(timer);
+
+countdown.innerHTML =
+`✅ Centang konfirmasi untuk melanjutkan`;
+
+checkArea.style.display='block';
+
+}
+
+},1000);
+
+document.getElementById('setuju').addEventListener('change',function(){
+
+if(this.checked){
+
+btnLanjut.disabled=false;
+btnLanjut.style.opacity='1';
+btnLanjut.style.cursor='pointer';
+
+}else{
+
+btnLanjut.disabled=true;
+btnLanjut.style.opacity='.5';
+btnLanjut.style.cursor='not-allowed';
+
+}
+
+});
+
+});
 
 </script>
 </body>
