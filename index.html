@@ -133,8 +133,39 @@ ul{padding-left:18px;line-height:1.8}
 </div>
 
 <div class="container">
+  
+<div class="step active" id="agree">
 
-<div class="step active" id="s1">
+<div class="card">
+<h2>PERSETUJUAN PENDAFTARAN</h2>
+
+<p style="line-height:1.8">
+Dengan melanjutkan pendaftaran Venom Infinity Predator, saya menyatakan bahwa:
+</p>
+
+<ul style="margin-top:10px">
+<li>Saya akan membaca tata cara pendaftaran dengan baik.</li>
+<li>Saya akan membaca seluruh ketentuan yang berlaku.</li>
+<li>Saya akan mengisi formulir dengan data yang benar.</li>
+<li>Saya memahami bahwa data palsu dapat menyebabkan pendaftaran ditolak.</li>
+<li>Saya bersedia mengikuti seluruh aturan komunitas Venom Infinity Predator.</li>
+<li>Saya memahami bahwa keputusan admin bersifat mutlak.</li>
+</ul>
+
+<label style="display:block;margin-top:15px">
+<input type="checkbox" id="setuju">
+ Saya telah membaca dan menyetujui seluruh ketentuan di atas.
+</label>
+
+<button class="btn" onclick="mulaiDaftar()">
+SAYA SETUJU & LANJUTKAN
+</button>
+
+</div>
+
+</div>
+
+<div class="step" id="s1">
 <div class="card"><img src="banner.png" class="banner"></div>
 <div class="card"><h2>Tata Cara Pendaftaran</h2><ul>
 <li>Baca seluruh syarat pendaftaran.</li>
@@ -149,7 +180,7 @@ ul{padding-left:18px;line-height:1.8}
 <li>Wajib mengirim SS bukti follow + bio.</li>
 <li>Wajib mengisi form dengan lengkap.</li>
 <li>Wajib menjaga attitude selama proses seleksi.</li></ul></div>
-<button id="timerBtn" class="btn" disabled>LANJUTKAN (30)</button>
+<button id="timerBtn" class="btn" disabled>DAFTAR UMUM (30)</button>
 
 <button class="btn" onclick="jalurKompe()">
 DAFTAR KOMPE
@@ -331,7 +362,18 @@ style="display:none;margin-top:10px;">
 <script>
 setTimeout(()=>load.style.display='none',1800);
 function go(n){document.querySelectorAll('.step').forEach(x=>x.classList.remove('active'));document.getElementById('s'+n).classList.add('active');bar.style.width=(n*20)+'%'}
-let sec=30;let tt=setInterval(()=>{sec--;timerBtn.innerText='LANJUTKAN ('+sec+')';if(sec<=0){clearInterval(tt);timerBtn.disabled=false;timerBtn.innerText='LANJUTKAN';timerBtn.onclick=()=>go(2)}},1000);
+let sec=30;
+let tt=setInterval(()=>{
+sec--;
+timerBtn.innerText='DAFTAR UMUM ('+sec+')';
+
+if(sec<=0){
+clearInterval(tt);
+timerBtn.disabled=false;
+timerBtn.innerText='DAFTAR UMUM';
+timerBtn.onclick=()=>go(2);
+}
+},1000);
 function copyT(id){navigator.clipboard.writeText(document.getElementById(id).value);Swal.fire('Berhasil','Disalin','success')}
 let role='';
 let modeDaftar='member';
@@ -339,6 +381,9 @@ let modeDaftar='member';
 function jalurKompe(){
 
 modeDaftar='kompe';
+
+rankUpdate();
+
 go(6);
 
 let detik = 10;
@@ -371,6 +416,18 @@ btn.onclick = () => go(2);
 function pick(el,val){document.querySelectorAll('.role').forEach(x=>x.classList.remove('on'));el.classList.add('on');role=val}
 function rankUpdate(){
 
+rank.innerHTML='';
+
+if(modeDaftar==='kompe'){
+
+rank.innerHTML='<option value="Mythical Immortal">Mythical Immortal</option>';
+
+document.getElementById('star').style.display='block';
+document.getElementById('star').placeholder='Minimal 300+ Star';
+
+return;
+}
+
 rank.innerHTML='<option value="">Pilih Rank</option>';
 
 if(gender.value==='Laki-Laki'){
@@ -381,11 +438,7 @@ if(gender.value==='Perempuan'){
 rank.innerHTML+='<option>Honor</option><option>Glory</option><option>Immortal</option>';
 }
 
-if(modeDaftar==='kompe'){
-document.getElementById('star').style.display='block';
-}else{
 document.getElementById('star').style.display='none';
-}
 
 }
 async function cekForm(){
@@ -464,6 +517,66 @@ const msg=`PENDAFTARAN VENOM INFINITY
 %0ARank: ${rank.value}
 %0AAlasan: ${alasan.value}`;
 location.href='https://wa.me/'+admin[role]+'?text='+msg;
+}
+
+let startY = 0;
+let refreshTriggered = false;
+
+window.addEventListener('touchstart', e => {
+
+if(window.scrollY === 0){
+startY = e.touches[0].clientY;
+refreshTriggered = false;
+}
+
+});
+
+window.addEventListener('touchmove', e => {
+
+const currentY = e.touches[0].clientY;
+
+if(
+window.scrollY === 0 &&
+currentY - startY > 120 &&
+!refreshTriggered
+){
+
+refreshTriggered = true;
+
+Swal.fire({
+title:'Refresh Halaman?',
+text:'Semua data formulir akan dihapus',
+icon:'question',
+showCancelButton:true,
+confirmButtonText:'Refresh'
+}).then(result=>{
+
+if(result.isConfirmed){
+location.reload();
+}
+
+});
+
+}
+
+});
+
+function mulaiDaftar(){
+
+if(!document.getElementById('setuju').checked){
+
+Swal.fire(
+'Persetujuan Diperlukan',
+'Silakan centang kotak persetujuan terlebih dahulu.',
+'warning'
+);
+
+return;
+}
+
+document.getElementById('agree').classList.remove('active');
+document.getElementById('s1').classList.add('active');
+
 }
 </script>
 </body></html>
