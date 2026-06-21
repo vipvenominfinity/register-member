@@ -340,7 +340,7 @@ Pilih file gambar bukti terlebih dahulu, lalu tekan <b>Upload Gambar</b>. Tunggu
 
 <input type="file" id="bukti" accept="image/*">
 
-<button class="btn" onclick="uploadImgBB()">
+<button class="btn" onclick="uploadCatbox()">
 UPLOAD GAMBAR
 </button>
 
@@ -475,6 +475,7 @@ const msg=`PENDAFTARAN KOMPETITIF VENOM INFINITY
 %0AStar: ${star.value}
 %0ARole: ${role}
 %0ARank: ${rank.value}
+%0ALink Bukti: ${document.getElementById('linkBukti').value}
 %0AAlasan: ${alasan.value}`;
 
 location.href='https://wa.me/6285891016662?text='+msg;
@@ -597,7 +598,9 @@ return;
 }
 
 const formData = new FormData();
-formData.append('image', file);
+
+formData.append('reqtype','fileupload');
+formData.append('fileToUpload',file);
 
 try{
 
@@ -608,20 +611,16 @@ didOpen:()=>Swal.showLoading()
 });
 
 const res = await fetch(
-'https://api.imgbb.com/1/upload?key=a4b81ab263633657730c4d89dc726e15',
+'https://catbox.moe/user/api.php',
 {
 method:'POST',
 body:formData
 }
 );
 
-const data = await res.json();
+const link = await res.text();
 
-if(!data.success){
-throw new Error();
-}
-
-document.getElementById('linkBukti').value = data.data.image.url;
+document.getElementById('linkBukti').value = link;
 
 Swal.fire(
 'Berhasil',
@@ -633,7 +632,7 @@ Swal.fire(
 
 Swal.fire(
 'Gagal',
-'Upload ImgBB gagal',
+'Catbox diblokir browser atau CORS error',
 'error'
 );
 
