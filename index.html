@@ -134,38 +134,7 @@ ul{padding-left:18px;line-height:1.8}
 
 <div class="container">
   
-<div class="step active" id="agree">
-
-<div class="card">
-<h2>PERSETUJUAN PENDAFTARAN</h2>
-
-<p style="line-height:1.8">
-Dengan melanjutkan pendaftaran Venom Infinity Predator, saya menyatakan bahwa:
-</p>
-
-<ul style="margin-top:10px">
-<li>Saya akan membaca tata cara pendaftaran dengan baik.</li>
-<li>Saya akan membaca seluruh ketentuan yang berlaku.</li>
-<li>Saya akan mengisi formulir dengan data yang benar.</li>
-<li>Saya memahami bahwa data palsu dapat menyebabkan pendaftaran ditolak.</li>
-<li>Saya bersedia mengikuti seluruh aturan komunitas Venom Infinity Predator.</li>
-<li>Saya memahami bahwa keputusan admin bersifat mutlak.</li>
-</ul>
-
-<label style="display:block;margin-top:15px">
-<input type="checkbox" id="setuju">
- Saya telah membaca dan menyetujui seluruh ketentuan di atas.
-</label>
-
-<button class="btn" onclick="mulaiDaftar()">
-SAYA SETUJU & LANJUTKAN
-</button>
-
-</div>
-
-</div>
-
-<div class="step" id="s1">
+<div class="step active" id="s1">
 <div class="card"><img src="banner.png" class="banner"></div>
 <div class="card"><h2>Tata Cara Pendaftaran</h2><ul>
 <li>Baca seluruh syarat pendaftaran.</li>
@@ -341,16 +310,46 @@ style="display:none;margin-top:10px;">
 <label>Alasan Bergabung</label>
 <textarea id="alasan" placeholder="Isi alasan bergabung di sini"></textarea>
 </div>
-<button class="btn back" onclick="go(2)">KEMBALI</button>
+<button class="btn back" onclick="kembaliForm()">KEMBALI</button>
 <button class="btn" onclick="cekForm()">LANJUTKAN</button>
 </div>
 
 <div class="step" id="s4">
-<div class="card"><img src="contoh1.jpg" class="example"></div>
-<div class="card">Kirim file gambar seperti contoh di atas, kirim lewat WhatsApp.</div>
-<div class="card"><ul><li>SS Follow TikTok VIP</li><li>SS TikTok sudah CN & Bio</li><li>SS Akun Mobile Legends</li><li>Foto Selfie</li></ul></div>
+
+<div class="card">
+<img src="contoh1.jpg" class="example">
+</div>
+
+<div class="card">
+<h2>Bukti Pendaftaran</h2>
+<ul>
+<li>SS Follow TikTok VIP</li>
+<li>SS CN & Bio TikTok</li>
+<li>SS Akun Mobile Legends</li>
+<li>Foto Selfie</li>
+</ul>
+<p><b>⚠️ Gabungkan menjadi 1 kolase.</b></p>
+</div>
+
+<div class="card">
+Pilih file gambar bukti terlebih dahulu, lalu tekan <b>Upload Gambar</b>. Tunggu sampai link berhasil dibuat dan muncul secara otomatis. Setelah link muncul, langsung tekan <b>LANJUTKAN</b> untuk melanjutkan pendaftaran.
+</div>
+
+<div class="card">
+<h2>Upload Bukti</h2>
+
+<input type="file" id="bukti" accept="image/*">
+
+<button class="btn" onclick="uploadImgBB()">
+UPLOAD GAMBAR
+</button>
+
+<input id="linkBukti" readonly placeholder="Link ImgBB akan muncul di sini">
+</div>
+
 <button class="btn back" onclick="go(3)">KEMBALI</button>
 <button class="btn" onclick="go(5)">LANJUTKAN</button>
+
 </div>
 
 <div class="step" id="s5">
@@ -515,6 +514,7 @@ const msg=`PENDAFTARAN VENOM INFINITY
 %0ACooldown CN: ${cooldown.value || 'Tidak Ada'}
 %0ARole: ${role}
 %0ARank: ${rank.value}
+%0ALink Bukti: ${document.getElementById('linkBukti').value}
 %0AAlasan: ${alasan.value}`;
 location.href='https://wa.me/'+admin[role]+'?text='+msg;
 }
@@ -561,22 +561,85 @@ location.reload();
 
 });
 
-function mulaiDaftar(){
+function kembaliForm(){
 
-if(!document.getElementById('setuju').checked){
+if(modeDaftar==='kompe'){
 
-Swal.fire(
-'Persetujuan Diperlukan',
-'Silakan centang kotak persetujuan terlebih dahulu.',
-'warning'
-);
+document.getElementById('nama').value='';
+document.getElementById('gender').value='';
+document.getElementById('umur').value='';
+document.getElementById('rank').innerHTML='<option value="">Pilih Rank</option>';
+document.getElementById('star').value='';
+document.getElementById('alasan').value='';
+
+role='';
+
+document.querySelectorAll('.role').forEach(x=>{
+x.classList.remove('on');
+});
+
+go(6);
 
 return;
 }
 
-document.getElementById('agree').classList.remove('active');
-document.getElementById('s1').classList.add('active');
+go(2);
 
 }
+
+async function uploadImgBB(){
+
+const file = document.getElementById('bukti').files[0];
+
+if(!file){
+Swal.fire('Pilih gambar terlebih dahulu');
+return;
+}
+
+const formData = new FormData();
+formData.append('image', file);
+
+try{
+
+Swal.fire({
+title:'Mengupload...',
+allowOutsideClick:false,
+didOpen:()=>Swal.showLoading()
+});
+
+const res = await fetch(
+'https://api.imgbb.com/1/upload?key=a4b81ab263633657730c4d89dc726e15',
+{
+method:'POST',
+body:formData
+}
+);
+
+const data = await res.json();
+
+if(!data.success){
+throw new Error();
+}
+
+document.getElementById('linkBukti').value = data.data.display_url;
+
+Swal.fire(
+'Berhasil',
+'Gambar berhasil diupload',
+'success'
+);
+
+}catch(err){
+
+Swal.fire(
+'Gagal',
+'Upload ImgBB gagal',
+'error'
+);
+
+}
+
+}
+
 </script>
 </body></html>
