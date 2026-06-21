@@ -340,7 +340,7 @@ Pilih file gambar bukti terlebih dahulu, lalu tekan <b>Upload Gambar</b>. Tunggu
 
 <input type="file" id="bukti" accept="image/*">
 
-<button class="btn" onclick="uploadCatbox()">
+<button class="btn" onclick="uploadCloudinary()">
 UPLOAD GAMBAR
 </button>
 
@@ -588,7 +588,7 @@ go(2);
 
 }
 
-async function uploadCatbox(){
+async function uploadCloudinary(){
 
 const file = document.getElementById('bukti').files[0];
 
@@ -598,8 +598,9 @@ return;
 }
 
 const formData = new FormData();
-formData.append('reqtype','fileupload');
-formData.append('fileToUpload',file);
+
+formData.append('file', file);
+formData.append('upload_preset', 'venom_upload');
 
 try{
 
@@ -610,16 +611,16 @@ didOpen:()=>Swal.showLoading()
 });
 
 const res = await fetch(
-'https://catbox.moe/user/api.php',
+'https://api.cloudinary.com/v1_1/ddg1qak65/image/upload',
 {
 method:'POST',
 body:formData
 }
 );
 
-const link = await res.text();
+const data = await res.json();
 
-document.getElementById('linkBukti').value = link;
+document.getElementById('linkBukti').value = data.secure_url;
 
 Swal.fire(
 'Berhasil',
@@ -631,7 +632,7 @@ Swal.fire(
 
 Swal.fire(
 'Gagal',
-'Catbox diblokir browser atau terjadi CORS Error',
+'Upload gagal',
 'error'
 );
 
