@@ -344,7 +344,7 @@ Pilih file gambar bukti terlebih dahulu, lalu tekan <b>Upload Gambar</b>. Tunggu
 UPLOAD GAMBAR
 </button>
 
-<input id="linkBukti" readonly placeholder="Link ImgBB akan muncul di sini">
+<input id="linkBukti" readonly placeholder="Link Catbox akan muncul di sini">
 </div>
 
 <button class="btn back" onclick="go(3)">KEMBALI</button>
@@ -588,7 +588,7 @@ go(2);
 
 }
 
-async function uploadImgBB(){
+async function uploadCatbox(){
 
 const file = document.getElementById('bukti').files[0];
 
@@ -598,7 +598,6 @@ return;
 }
 
 const formData = new FormData();
-
 formData.append('reqtype','fileupload');
 formData.append('fileToUpload',file);
 
@@ -632,7 +631,7 @@ Swal.fire(
 
 Swal.fire(
 'Gagal',
-'Catbox diblokir browser atau CORS error',
+'Catbox diblokir browser atau terjadi CORS Error',
 'error'
 );
 
