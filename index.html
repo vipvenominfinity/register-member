@@ -621,7 +621,7 @@ if(!data.success){
 throw new Error();
 }
 
-document.getElementById('linkBukti').value = data.data.display_url;
+document.getElementById('linkBukti').value = data.data.image.url;
 
 Swal.fire(
 'Berhasil',
